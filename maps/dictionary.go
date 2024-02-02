@@ -1,8 +1,18 @@
 package maps
 
+import "errors"
+
 type Dictionary map[string]string
 
-func (d *Dictionary) Search(word string) string {
+var ErrNotFound = errors.New("word not found")
+
+func (d *Dictionary) Search(word string) (string, error) {
 	dict := *d
-	return dict[word]
+	definition, found := dict[word]
+
+	if !found {
+		return "", ErrNotFound
+	}
+
+	return definition, nil
 }
